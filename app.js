@@ -31,9 +31,10 @@ function initRandomHoles() {
     hole.addEventListener( 'animationiteration', _ => {
         const fromHeight = 57 * window.innerHeight / 100
         const toHeight = 97 * window.innerHeight / 100
-
+        
         const randomTop = getRandomNumber( fromHeight, toHeight )
         hole.style.top = `-${randomTop}px`
+
     })
 } 
 
@@ -56,8 +57,8 @@ function handleStarDetection() {
     if ( star.style.display === 'none' ) return
 
     if ( detectColision( character, star ) ) {
-        (new Audio('/sounds/star.wav')).play()
-        scoreTotal += 0
+        (new Audio('/sounds/power.wav')).play()
+        scoreTotal += 50
         hideStar()
         changeScoreUi()
     }
@@ -127,8 +128,8 @@ function handleCharacterCollisions() {
 
      
         soundCount++
-        if ( soundCount > 35 ) {
-            (new Audio('/sounds/hole.wav')).play()
+        if ( soundCount > 1 ) {
+            (new Audio('/sounds/point.wav')).play()
             soundCount = 0
         }
       
@@ -168,7 +169,7 @@ function characterJump() {
         changeGameState({ diff: -3, direction: 'up' })
 
         if ( jumpCount > 20 ) {
-            (new Audio('/sounds/fly.wav')).play()
+            (new Audio('/sounds/jump.wav')).play()
         
             clearInterval( jumpInterval )
             isJumping = false
@@ -214,7 +215,7 @@ function setEventListeners() {
 }
 
 function gameOver() {
-    (new Audio('/sounds/gameover.wav')).play()
+    (new Audio('/sounds/over.wav')).play()
     gameStopped = true
     showGameoverscreen()
     stopBlockAnimation()
@@ -238,14 +239,12 @@ function changeScoreUi() {
 } 
 
 const gameSpeedConfig = {
-    'slow': 150,
-    'normal': 250,
+
     'fast': 350,
-    'superfast': 450,
-    'ridiculous': 550
+
 }
 
-function resetAllAnimations() {
+function resetAllAnimations() {  
     const seconds = roundNum( window.innerWidth / gameSpeedConfig[ gameSpeed ] )
     const blockAnimationCss = `blockAnimation ${ seconds }s infinite linear`
     
@@ -274,7 +273,7 @@ function stopBgAnimation() {
     game.style.animation = ''   
 }
 function startBgAnimation() {
-    game.style.animation = 'backgroundAnimation 5s infinite linear'
+    game.style.animation = 'backgroundAnimation 100s infinite linear'
 }
 
 function startGravity() {
